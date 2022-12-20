@@ -1,0 +1,64 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+private:
+    ListNode* reverseList(ListNode* head) {
+        ListNode* prevptr=NULL;
+        ListNode* currptr=head;
+        ListNode* nextptr;
+        while(currptr!=NULL)
+        {
+            nextptr=currptr->next;
+            currptr->next=prevptr;
+            prevptr=currptr;
+            currptr=nextptr;
+        }
+        return prevptr;
+    }
+public:
+    bool isPalindrome(ListNode* head) {
+        int flag=0;
+        ListNode *slow=head;
+        ListNode *flash=head;
+        //ListNode *slow=NULL;
+        if(head==NULL || head->next==NULL)
+        {
+            return true;
+        }
+        while(flash!=NULL && flash->next!=NULL)
+        {
+            slow=slow->next;
+            flash=flash->next->next;
+        }
+        slow->next=reverseList(slow->next);
+       // cout<<slow->val<<endl;
+        //cout<<head->val<<endl;
+        // while(slow!=NULL)
+        // {
+        //     cout<<slow->val<<"->"<<" ";
+        // }
+       // cout<<endl;
+        slow=slow->next;
+       // cout<<"slow"<<slow->val<<endl;
+        while(slow!=NULL)
+        {
+            if(slow->val!=head->val)
+            {
+                return false;
+            }
+            head=head->next;
+            slow=slow->next;
+        }
+        return true;
+        
+    }
+    
+};
